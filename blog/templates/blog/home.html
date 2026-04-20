@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Блог - Online Shop{% endblock %}
+
+{% block content %}
+{% include 'menu.html' %} <!-- Вставляем подшаблон -->
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Наш блог</h1>
+        <a href="{% url 'blog:create' %}" class="btn btn-primary">Написать статью</a>
+    </div>
+    <div class="row">
+        {% for blog in blogs %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                {% if blog.preview %}
+                <img src="{{ blog.preview.url }}" class="card-img-top" alt="{{ blog.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.title }}</h5>
+                    <p class="card-text">{{ blog.content|truncatechars:100 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="{% url 'blog:blog_detail' blog.pk %}" class="btn btn-sm btn-outline-secondary">Читать</a>
+                            <a href="{% url 'blog:edit' blog.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                        </div>
+                        <small class="text-muted">👁 {{ blog.views_count }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
