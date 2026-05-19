@@ -1,9 +1,9 @@
-{% extends 'catalog/base.html' %} <!-- Наследуем базовый шаблон -->
+{% extends 'base.html' %} <!-- Наследуем базовый шаблон -->
 
 {% block title %}Контакты | Online Shop{% endblock %}
 
 {% block content %}
-{% include 'catalog/menu.html' %} <!-- Вставляем подшаблон -->
+{% include 'menu.html' %} <!-- Вставляем подшаблон -->
 <div class="container">
     <div class="row text-start">
         <div class="col-lg-9 col-md-6 col-sm-12">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="message">Сообщение</label>
-                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Контактный телефон" required></textarea>
+                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Напишите Ваше сообщение" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                     </form>

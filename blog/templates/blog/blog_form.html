@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Редактирование{% else %}Создание{% endif %} статьи{% endblock %}
+
+{% block content %}
+{% include 'menu.html' %} <!-- Вставляем подшаблон -->
+<div class="container mt-4">
+    <h2>{% if object %}Редактирование{% else %}Новая статья{% endif %}</h2>
+    <form method="post" enctype="multipart/form-data" class="col-md-8">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'blog:home' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
