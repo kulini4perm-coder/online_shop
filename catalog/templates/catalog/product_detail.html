@@ -1,11 +1,11 @@
 {% extends 'base.html' %} <!-- Наследуем базовый шаблон -->
 
-{% block title %}Товар{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
 {% include 'menu.html' %} <!-- Вставляем подшаблон -->
 <div class="container mt-5">
-    <a href="/" class="btn btn-outline-secondary mb-4">← Назад в каталог</a>
+    <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mb-4">← Назад в каталог</a>
     <div class="row">
         <div class="col-md-6">
             <!-- Картинка товара -->
@@ -29,6 +29,16 @@
             </div>
             <div class="d-grid gap-2">
                 <button class="btn btn-success btn-lg" type="button">Добавить в корзину</button>
+            </div>
+
+            <!-- Изменение или удаление товара -->
+            <div class="d-flex gap-2 mb-3">
+                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning flex-grow-1">
+                    Редактировать товар
+                </a>
+                <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger flex-grow-1">
+                    Удалить товар
+                </a>
             </div>
 
             <small class="text-muted d-block mt-3">Дата поступления: {{ product.created_at|date:"d.m.Y" }}</small>
