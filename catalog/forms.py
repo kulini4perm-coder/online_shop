@@ -2,13 +2,12 @@ import os
 from django import forms
 from .models import Product
 
+FORBIDDEN_PRODUCT_WORDS = [
+    'казино', 'криптовалюта', 'крипта', 'биржа',
+    'дешево', 'бесплатно', 'обман', 'полиция', 'радар'
+]
 
 class ProductForm(forms.ModelForm):
-    # Список запрещенных слов
-    forbidden_words = [
-        'казино', 'криптовалюта', 'крипта', 'биржа',
-        'дешево', 'бесплатно', 'обман', 'полиция', 'радар'
-    ]
 
     class Meta:
         model = Product
@@ -40,11 +39,12 @@ class ProductForm(forms.ModelForm):
             'placeholder': '0.00'
         })
 
-    def validate_forbidden_words(self, text):
+    @staticmethod
+    def validate_forbidden_words(text):
         """Вспомогательный метод для поиска запрещенных слов (без учета регистра)."""
         if text:
             text_lower = text.lower()
-            for word in self.forbidden_words:
+            for word in FORBIDDEN_PRODUCT_WORDS:
                 if word in text_lower:
                     raise forms.ValidationError(f'Использование слова "{word}" запрещено!')
         return text
