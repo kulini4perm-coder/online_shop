@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import BlogEntry
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class BlogListView(ListView):
@@ -24,13 +25,13 @@ class BlogDetailView(DetailView):
         self.object.save()
         return self.object
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = BlogEntry
     fields = ['title', 'content', 'preview', 'is_published']
     template_name = 'blog/blog_form.html'
     success_url = reverse_lazy('blog:home')
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogEntry
     fields = ['title', 'content', 'preview', 'is_published']
     template_name = 'blog/blog_form.html'
@@ -39,7 +40,7 @@ class BlogUpdateView(UpdateView):
         # Возвращаемся на страницу статьи после редактирования
         return reverse('blog:blog_detail', kwargs={'pk': self.object.pk})
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = BlogEntry
     template_name = 'blog/blog_confirm_delete.html'
     success_url = reverse_lazy('blog:home')
