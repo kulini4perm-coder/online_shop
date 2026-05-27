@@ -8,7 +8,8 @@
         <span class="text-muted mx-2">|</span>
 
         {% if user.is_authenticated %}
-            <span class="text-muted me-2">Привет, <strong>{{ user.username }}</strong>!</span>
+            <span class="text-muted me-3">Привет, <strong>{{ user.first_name|default:user.email }}</strong>!</span>
+            <a href="{% url 'users:profile' %}" class="btn btn-outline-secondary btn-sm me-2">Профиль</a>
             <form action="{% url 'users:logout' %}" method="post" class="m-0 d-inline">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-danger btn-sm">Выйти</button>
