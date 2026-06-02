@@ -27,18 +27,50 @@
                     <p class="card-text">{{ product.description }}</p>
                 </div>
             </div>
-            <div class="d-grid gap-2">
+            <div class="d-grid gap-2 mb-3">
                 <button class="btn btn-success btn-lg" type="button">Добавить в корзину</button>
             </div>
 
+            <!-- Панель модератора продуктов -->
+            {% if perms.catalog.can_unpublish_product %}
+            <div class="card border-warning mb-3 bg-light">
+                <div class="card-body">
+                    <h6 class="card-title text-warning font-weight-bold">Панель модератора</h6>
+                    <p class="card-text small mb-2">
+                        Текущий статус:
+                        {% if product.is_published %}
+                            <span class="badge bg-success">Опубликован</span>
+                        {% else %}
+                            <span class="badge bg-danger">Снят с публикации</span>
+                        {% endif %}
+                    </p>
+
+                    <!-- Форма переключения публикации товара -->
+                    <form action="{% url 'catalog:switch_publish' product.pk %}" method="post" class="m-0">
+                        {% csrf_token %}
+                        {% if product.is_published %}
+                            <button type="submit" class="btn btn-warning btn-sm w-100">Снять с публикации</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-success btn-sm w-100">Опубликовать</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
             <!-- Изменение или удаление товара -->
             <div class="d-flex gap-2 mb-3">
+                {% if product.owner == user or user.is_superuser %}
                 <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning flex-grow-1">
                     Редактировать товар
                 </a>
+                {% endif %}
+
+                {% if product.owner == user or perms.catalog.delete_product or user.is_superuser %}
                 <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger flex-grow-1">
                     Удалить товар
                 </a>
+                {% endif %}
             </div>
 
             <small class="text-muted d-block mt-3">Дата поступления: {{ product.created_at|date:"d.m.Y" }}</small>
