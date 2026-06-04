@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Все категории{% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="container mt-5">
+    <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mb-4">← На главную</a>
+    <h1 class="display-5 mb-4">Категории товаров</h1>
+    <hr class="mb-4">
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for cat in categories %}
+            <div class="col">
+                <div class="card h-100 shadow-sm text-center">
+                    <div class="card-body d-flex flex-column justify-content-center">
+                        <h4 class="card-title text-primary mb-3">{{ cat.name }}</h4>
+                        {% if cat.description %}
+                            <p class="card-text text-muted small flex-grow-1">{{ cat.description|truncatechars:80 }}</p>
+                        {% endif %}
+                        <a href="{% url 'catalog:category_products' cat.pk %}" class="btn btn-outline-primary mt-3">
+                            Открыть товары
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">Категорий пока нет.</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

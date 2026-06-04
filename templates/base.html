@@ -18,13 +18,7 @@
                 <small class="d-block mb-3 text-muted">&copy; 2026</small>
             </div>
             <div class="col-6 col-md">
-                <h5>Категории</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Электроника</a></li>
-                    <li><a class="text-muted" href="#">Одежда</a></li>
-                    <li><a class="text-muted" href="#">Дом и сад</a></li>
-                    <li><a class="text-muted" href="#">Аксессуары</a></li>
-                </ul>
+                <a href="{% url 'catalog:categories_list' %}" class="text-muted">Категории</a> <!-- Ссылка на категории теперь активна-->
             </div>
             <div class="col-6 col-md">
                 <h5>Поддержка</h5>
